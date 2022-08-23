@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+  justify-content: center;
+  display: flex; 
+  padding: 90px 0px 90px 0px;
+  background-color:whitesmoke;
+}
+.content
+{
+  margin-top: 50px;
+}
+.dashboard{
+  display:block;
+  /* justify-content: center; */
+  height: 550px;
+  width:1200px;
+  margin: auto;
+  box-shadow: 1px 1px 10px 5px rgb(207,207,207);
+}
+.main{
+  display: flex;
+  justify-content: center;
+  height: 550px;
+  width:950px;
+  box-shadow: 1px 1px 10px 5px rgb(207,207,207);
+  padding-top: 30px;
+  border:1rem;
+  border-radius:20px;
+  background-color:white;
+
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+.App-header {
+  background-color: #e2eafb;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loginBox{
+  height: 250px;
+  width: 100px;
+  color: red;
+
+}
+.card{
+  color: red;
+}
+.image{
+  background-image: url("./componenets/images/image1.png");
+}
+
+.components-layout-demo-fixed .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(96, 5, 5, 0.2);
+}
+.site-layout .site-layout-background {
+  background-color:rgb(198, 228, 237);
+}

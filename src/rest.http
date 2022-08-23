@@ -1,0 +1,4 @@
+GET http://localhost:8080/getCommentBy/74
+
+
+# GET http://localhost:8080/getCommentBy/74
