@@ -24,8 +24,10 @@ function App() {
   }
   return (
     <div className="App">
-      
       <Route path='/' component={Login} exact>
+        <Login checkLogin={checkLogin}/>            
+      </Route>
+      <Route path='/login' component={Login} exact>
         <Login checkLogin={checkLogin}/>            
       </Route>
       <Route path='/dashboard'>

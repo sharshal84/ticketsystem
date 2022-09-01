@@ -153,7 +153,8 @@ const getTickets=()=>{
     }, (error) => {
         console.log(error);
         // toast.error("Somthing went wrong");
-    }).then(data => {       
+    }).then(data => { 
+      console.log("Data is "+data);      
         setData(data);
     })
 }
@@ -269,7 +270,7 @@ return(
     <div>
     <Row>
         {/* <Button onClick={getUsers}>GetUsers</Button> */}
-      <Col span={4}><Title level={3} style={{float:'left'}}><Text>User</Text></Title></Col>
+      <Col span={4}><Title level={3} style={{float:'left'}}><Text>Tickets</Text></Title></Col>
       {/* <Col span={20}><Button danger style={{float:'right',marginBottom:'10px'}} onClick={handleClickOpen}>Add New</Button></Col> */}
     </Row>    
     <div className='content1'>

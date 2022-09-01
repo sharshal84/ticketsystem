@@ -6,8 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { DeleteOutlined, DeleteRowOutlined, EditOutlined } from '@ant-design/icons';
 import FormDialog from './product_dialog';
 
-
-const initialValue = { name: "", email: "", password: "", company: "", designation:""}
 const { Title,Text} = Typography;
 
 const url=`http://localhost:8080`;
@@ -64,8 +62,12 @@ const handleFormSubmit = () => {
   } else {
     // adding new user
     // console.log(formData.name+" "+formData.role);
-    console.log(JSON.stringify(formData));
-    axios.post('http://localhost:8080/productsignup',formData,{
+    // console.log(JSON.stringify(formData));
+    // console.log(formData.name);
+    axios.post('http://localhost:8080/productsignup',JSON.stringify({
+      id:null,
+      product:formData.name
+    }),{
           headers: {'Content-Type': 'application/json'}    
         })
         .then(function (response) {

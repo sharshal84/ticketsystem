@@ -1,4 +1,14 @@
-GET http://localhost:8080/getCommentBy/74
+GET http://localhost:8080/countTickets
 
 
 # GET http://localhost:8080/getCommentBy/74
+
+###
+POST 'http://localhost:8080/getTicketsBy'
+Content-Type: application/json
+
+{
+    "username":"sangram@gmail.com"
+}
+
+

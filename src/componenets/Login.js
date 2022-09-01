@@ -13,12 +13,8 @@ const Login = ({checkLogin,checkCustomer}) => {
     const [form1]= Form.useForm();
     const { Option } = Select;
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [username,setName]=useState('admin');
-    const [email,setEmail]=useState('');
-    const [role,setRole]=useState();
-    const [password,setPassword]=useState('1234');
+    const [redirect,setRedirect]=useState(false);
     const { Header, Content, Footer, Sider } = Layout;
-    const [temp,setTemp]=useState([]);
     let history=useHistory();
     
 
@@ -28,15 +24,20 @@ const Login = ({checkLogin,checkCustomer}) => {
         })
         .then((response)=>
         {
-            checkLogin(response.data.username);
+            
             // checkLogin(response.data.id);
             // console.log(response.data);
             if(response.data)
             {
+                checkLogin(response.data.username);
+                let username=response.data.username;
+                sessionStorage.setItem('username',username);
+                setRedirect(true);
                 form.resetFields();
                 if(response.data.role=="admin")
                 {
-                    history.push('/dashboard/home');    
+                    history.push('/dashboard/home');
+                        
                 }
                 if(response.data.role=="staff")
                 {
@@ -129,50 +130,11 @@ const Login = ({checkLogin,checkCustomer}) => {
                                 <Button danger htmlType="submit" className="login-form-button">
                                 Log in
                                 </Button>
-                                <Button type="link" shape="round" onClick={showModal}>Register</Button>            
+                                {/* <Button type="link" shape="round" onClick={showModal}>Register</Button>             */}
                             </Space>
                             
                         </Form.Item>     
                         </Form>
-                        <Modal title={<Title level={3}><Text  italic>Register</Text></Title>} visible={isModalVisible} footer={null} onCancel={handleCancel}>
-                            <Form
-                            className="login-form"
-                            initialValues={{
-                                remember: true,
-                            }}
-                            size={'large'}
-                            onFinish={onRegister}
-                            form={form1}
-                            {...formItemLayout}
-                            >
-                                <Form.Item label="Enter Name" name="name" rules={[{ required: true,message: 'Please input your Username!',},]}>
-                                    <Input type="text" />
-                                </Form.Item>
-                    
-                                <Form.Item name="email" label="Enter email" rules={[{ required: true,message: 'Please input your Email!',},]}>
-                                    <Input type="email"/>
-                                </Form.Item>
-                                
-                                <Form.Item label="Enter Password" name="password1" rules={[{required: true,message: 'Please input your Password!',},]}>
-                                    <Input  type="password"/>
-                                </Form.Item>
-                                
-                                <Form.Item label="Select Role" name="Role" rules={[{ required: true }]}>
-                                    <Select
-                                    allowClear
-                                    >
-                                    <Option value="admin" >Admin</Option>
-                                    <Option value="other" >Other</Option>
-                                    </Select>
-                                </Form.Item>
-                    
-                                <Form.Item>
-                                        <Button danger style={{float:'right'}} htmlType="submit" className="login-form-button">
-                                        Submit
-                                        </Button>        
-                                </Form.Item>      
-                            </Form>
-                        </Modal>
                         </Card>        
                     </Content>
                     <Sider width={500}>

@@ -14,51 +14,56 @@ export default function FormDialog({open,handleClose,data,onChange,handleFormSub
  const optionsss = ['RFID', 'AVCC', 'ATCC'];
  
  const options = [
-  {
-    label: 'RFID',
-    value: 8,
-  },
-  {
-    label: 'AVCC',
-    value: 9,
-  },
-  {
-    label: 'ATCC',
-    value: 11,
-  },
+  // {
+  //   label: 'RFID',
+  //   value: 'RFID',
+  // },
+  // {
+  //   label: 'AVCC',
+  //   value: 'AVCC',
+  // },
+  // {
+  //   label: 'ATCC',
+  //   value: 'ATCC',
+  // },
 ];
-
+// console.log(enrollProduct);
 
  let temp=[];
  const [products,setProducts]=useState([]);
  const [productvalue,setProductvalue]=useState([]);
  const { Option } = Select;
 
-//  useEffect(()=>{
-//     getProducts();
-//     // setFirstName(userData);
-//     enrollProduct.map((each)=>{
-//       productvalue.push(each.product);
-//       temp.push(each.product);
-//     })
-//  },[data])
 
-//  const getProducts=()=>{
+ enrollProduct.map((each)=>{
+        products.push(each.product);
+        // console.log(JSON.stringify(products));
+        // setProducts(each.product);
+  //       temp.push(each.product);
+      })
+ useEffect(()=>{
+    getProducts();
+    // setFirstName(userData);
+    // enrollProduct.map((each)=>{
+    //   productvalue.push(each.product);
+    //   temp.push(each.product);
+    // })
+ },[data])
 
-//   fetch(`${'http://localhost:8080'}/getProductsByname`)
-//   .then((response) => {
-//       return response.json();
-//   }, (error) => {
-//       console.log(error);
-//   }).then(data => {
-//       setProducts(data );
-//       data.map((each)=>{
-//         // setProducts(each.name);
-//       })
-      
-      
-//   })
-// }  
+ const getProducts=()=>{
+
+  fetch(`${'http://localhost:8080'}/getProductsByname`)
+  .then((response) => {
+      return response.json();
+  }, (error) => {
+      console.log(error);
+  }).then(data => {
+      data.map((each)=>{
+        options.push(each);
+      })
+      console.log(JSON.stringify(options));      
+  })
+}  
   return (
     <div>
       <Dialog
@@ -88,7 +93,7 @@ export default function FormDialog({open,handleClose,data,onChange,handleFormSub
               {/* <Col span={4} style={{padding:'8px'}}><label><h3>Products</h3></label></Col> */}
               
               <Col span={20} style={{padding:'0px'}}>
-              <Checkbox.Group  options={optionsss} defaultValue={temp} style={{marginTop:'10px'}}
+              <Checkbox.Group  options={options} defaultValue={products}  style={{marginTop:'10px'}}
               onChange={date => onChange({ target: { value: date, id: 'product' } })}
               // onChange={(e)=>onChange(e)}
               />
@@ -100,7 +105,7 @@ export default function FormDialog({open,handleClose,data,onChange,handleFormSub
         
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary" variant="outlined">
+          <Button onClick={()=>{handleClose();products.length=0}} color="secondary" variant="outlined">
             Cancel
           </Button>
           <Button  color="primary" onClick={()=>handleFormSubmit()} variant="contained">

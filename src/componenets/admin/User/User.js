@@ -47,7 +47,8 @@ const handleClickOpen = () => {
 
 const handleClose = () => {
   setOpen(false);
-  setFormData(initialValue)
+  setFormData(initialValue);
+  console.log(initialValue);
 };
 
 const onProducts=(list)=>{
@@ -60,17 +61,13 @@ const onProducts=(list)=>{
 const onChange = (e) => {
 
   const { value, id} = e.target
-  if(id==="role")
-  {
-    // console.log("*********");
-  }
   // console.log("Values   "+value);
   // prev => ({ ...prev, [e.target.name]: e.target.value })
   setFormData(prev=>({...prev, ...Data, [id]: value }))
 }
 
 const handleFormSubmit = () => {
-  console.log(Data);
+  // console.log(Data);
   const formData=new FormData();
   formData.append("name",Data.name);
   formData.append("email",Data.email);
@@ -156,7 +153,7 @@ const getUsers=()=>{
         // toast.error("Somthing went wrong");
     }).then(data => {       
         setData(data);
-        // console.log(data); 
+        console.log("Data "+data); 
     })
 }  
 

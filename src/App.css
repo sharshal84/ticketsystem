@@ -3,17 +3,21 @@
   justify-content: center;
   display: flex; 
   padding: 90px 0px 90px 0px;
-  background-color:whitesmoke;
+  background-color:white;
 }
 .content
 {
   margin-top: 50px;
 }
+.site-card-wrapper {
+  padding: 30px;
+  background:white;
+}
 .dashboard{
   display:block;
   /* justify-content: center; */
   height: 550px;
-  width:1200px;
+  width:1400px;
   margin: auto;
   box-shadow: 1px 1px 10px 5px rgb(207,207,207);
 }
@@ -45,7 +49,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #cfecf4;
 }
 
 @keyframes App-logo-spin {
