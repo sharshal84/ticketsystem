@@ -25,12 +25,14 @@ const [user_name,setUserName]=useState();
 const [customer_id,setCustomerId]=useState();
 const [ticket_id,setTicketid]=useState('1');
 const [date,setDate]=useState();
+const [statuscreatedBy,setStatusCreatedBy]=useState();
 const [remark,setRemark]=useState('Please fix this issue');
 const [description,setDescription]=useState('Reader is not working');
 const [products,setProducts]=useState(<div><Tag color='gold' key='product'>AVCC</Tag></div>);
 const [serialnumber,setSerialnumber]=useState('E2000WSX');
 const [status,setStatus]=useState(<div><Tag color='green' key='product'>Open</Tag></div>);
 const [file,setFile]=useState();
+// const [statuspresent,setStatusPresent]=(false);
 const options = ['RFID', 'AVCC', 'ATCC'];
 const [loading, setLoading] = useState(false);
 const [listdata, setListData] = useState([]);
@@ -173,19 +175,19 @@ const columns = [
   ];
   
   const loadMoreData = (id) => {
-    // if (loading) {
-    //   return;
-    // }
-    // setLoading(true);
-    // fetch(`${'http://localhost:8080'}/getCommentBy/${id}`)
-    //   .then((res) => res.json())
-    //   .then((body) => {
-    //     setListData([...listdata, ...body]);
-    //     setLoading(false);
-    //   })
-    //   .catch(() => {
-    //     setLoading(false);
-    //   });
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    fetch(`${'http://localhost:8080'}/getCommentBy/${id}`)
+      .then((res) => res.json())
+      .then((body) => {
+        setListData([...listdata, ...body]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 const formItemLayout = {
     labelCol: {
@@ -234,14 +236,56 @@ const showModal = () =>{
 const openModal=()=>{
     setModal(true);
 }
+const getSingleTicketStatusAudit=(id)=>{
+  axios.get(`${'http://localhost:8080'}/getSingleTicketStatusAudit/${id}`)
+  .then((response) => {
+      console.log(response)
+      if(response.status==200)
+      {
+        setStatusCreatedBy(response.data.user);
+        // setStatusPresent(true);
+        console.log(response.data);
+      }
+      else if(response.status==204)
+      {
+        console.log("No Content");
+      }
+  }, (error) => {
+      console.log(error);
+      // toast.error("Somthing went wrong");
+  })
+}
+const setConfirmStatus=(e)=>{
+  console.log(e);
+}
+const statusInprogress=(value)=>{
+  // console.log(ticket_id);
+  Modal.confirm({
+    title:'Are you sure,you want to Change status Inprogress?',
+    onOk:()=>{
+      fetch(`${'http://localhost:8080'}/setStatusInprogress/${ticket_id}`)
+        .then((response) => {
+            return response.json();
+        }, (error) => {
+            console.log(error);
+            // toast.error("Somthing went wrong");
+        }).then(data => {    
+          // setUserId(data.id);
+          // setUserName(data.name); 
+        })
+    }
+})
+} 
+
 const handleUpdate = (oldData) => {
+    getSingleTicketStatusAudit(oldData.id);
     console.log(oldData);
     setTicketid(oldData.id);
     setDescription(oldData.description);
     setProducts(<Tag color="cyan" key={oldData.customer_product}>{oldData.customer_product}</Tag>);
     setDate(oldData.created_at);
     setRemark(oldData.remark);
-    setFile(oldData.file);    
+    setFile(<a href={oldData.file}>File</a>);    
     // // setFormData(oldData)
     // // console.log(oldData.name);
     // // handleClickOpen()
@@ -249,11 +293,14 @@ const handleUpdate = (oldData) => {
     loadMoreData(oldData.id);
     // showModal();
   }
+
 const CancelModal = () => {
     listdata.length=0;
     setModal(false);
+    getTickets(sessionStorage.getItem('username'));
   };
-  const onRegister=(data)=>{
+
+const onRegister=(data)=>{
     
     // console.log(data);
     const formData=new FormData();
@@ -284,8 +331,6 @@ const CancelModal = () => {
         .catch(function (error) {
           console.log(error);
     });
-    
-
   }
 
   const handleCancel = () => {
@@ -339,6 +384,7 @@ const CancelModal = () => {
             console.log(sessionStorage.getItem('username'));
             getTickets(sessionStorage.getItem('username'));
             getCustomerInfo(sessionStorage.getItem('username'));
+            // getTicketStatusAudit(sessionStorage.getItem('username'));
         }
         else
         {
@@ -347,6 +393,18 @@ const CancelModal = () => {
     // getTickets();
     
   },[])
+
+  const getTicketStatusAudit=(id)=>{
+    fetch(`${'http://localhost:8080'}/getTicketStatusAudit/${id}`)
+        .then((response) => {
+            return response.json();
+        }, (error) => {
+            console.log(error);
+            // toast.error("Somthing went wrong");
+        }).then(data => {
+          console.log(data); 
+        })
+  }
 
   const logout=()=>{
     Modal.confirm({
@@ -360,6 +418,28 @@ const CancelModal = () => {
       }
   })
   }
+  const setStatusCreated=()=>{
+    // alert(1);
+    setStatusCreatedBy('');
+  }
+  const statusCompleted=(value)=>{
+    // console.log(ticket_id);
+    Modal.confirm({
+      title:'Are you sure,you want to Change status Complete?',
+      onOk:()=>{
+        fetch(`${'http://localhost:8080'}/setStatusCompleted/${ticket_id}`)
+          .then((response) => {
+              return response.json();
+          }, (error) => {
+              console.log(error);
+              // toast.error("Somthing went wrong");
+          }).then(data => {    
+            // setUserId(data.id);
+            // setUserName(data.name); 
+          })
+      }
+    })
+  }  
 
   if(redirect)
     {
@@ -436,7 +516,12 @@ const CancelModal = () => {
                               products={products}
                               status={status}
                               form1={form1}
+                              statusInprogress={statusInprogress}
+                              setStatusCreated={setStatusCreated}
+                              statuscreatedBy={statuscreatedBy}
+                              setConfirmStatus={setConfirmStatus}
                               onSubmit={onSubmit}
+                              statusComplete={statusCompleted}
                               formItemLayout={formItemLayout}
                               loadMoreData={loadMoreData}
                               onDelete={onDelete}

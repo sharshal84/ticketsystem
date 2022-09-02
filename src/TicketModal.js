@@ -89,7 +89,7 @@ const TicketModal=({listdata,isModal,user_name,
                 </Card>
             </Col>
             <Col span={8}>
-                <Card title="Card title" bordered={state} style={{backgroundColor:'white'}}>
+                <Card title={<h4 style={{color:'red',textAlign:'center'}}>Comment/Assign</h4>} bordered={true} style={{backgroundColor:'white'}}>
                 <Form
                             layout='horizontal'
                             className="login-form"
@@ -114,8 +114,6 @@ const TicketModal=({listdata,isModal,user_name,
                                         <Option value="NotInScope">NotInScope</Option>
                                         <Option value='In-progress'>In-Progress</Option>
                                         <Option value='reassign'>Re-assign</Option>
-                                        <Option value='reassign'>Test</Option>
-                                        
                                     </Select>
                                     {/* <Select options={datalist} placeholder="Re-assign"></Select> */}
                                 </Form.Item>

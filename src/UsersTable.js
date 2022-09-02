@@ -202,26 +202,27 @@ const onSubmit = (data) =>
   console.log(data);
   if(data.comment)
   {
-  //   axios.post('http://localhost:8080/savecomment',JSON.stringify({
-  //   ticket_id:ticket_id,
-  //   user_id:user_id,
-  //   // timestamp:new Date().toLocaleString(),
-  //   message:data.comment
-  // }),{
-  //         headers: {'Content-Type': 'application/json'}   
-  //       })
-  //       .then(function (response) {
-  //           form1.resetFields();
-  //           loadExtraData(response.data);
+    axios.post('http://localhost:8080/savecomment',JSON.stringify({
+    ticket_id:ticket_id,
+    user_id:user_id,
+    // timestamp:new Date().toLocaleString(),
+    message:data.comment
+  }),{
+          headers: {'Content-Type': 'application/json'}   
+        })
+        .then(function (response) {
+            form1.resetFields();
+            loadExtraData(response.data);
             
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //   });
+        })
+        .catch(function (error) {
+          console.log(error);
+    });
   }
 
   if(data.status)
   {
+    console.log("hello");
     if(data.status=="reassign")
     {
       Modal.confirm({
@@ -230,7 +231,7 @@ const onSubmit = (data) =>
     })
       
     }
-    if(data.status=="Complete" || data.status=="NotInScope")
+    if(data.status=="Complete")
     Modal.confirm({
       title:'Are you sure,you want to Change status to '+data.status+' ?',
       onOk:()=>{
@@ -248,27 +249,24 @@ const onSubmit = (data) =>
   if(data.reassign)
   {
     console.log(data.reassign);
-
-    
-
-    // axios.get(`${'http://localhost:8080'}/assignTicketTo/${data.reassign}/${ticket_id}/${username}`)
-    // .then(function (response) {
-    //   // handle success
-    //   console.log(response);
-    //   if(response.data=="Assigned")
-    //   {
-    //     toast.success(response.data);
-    //   }
-    //   else
-    //   {
-    //     toast.error(response.data);
-    //   }
+    axios.get(`${'http://localhost:8080'}/assignTicketTo/${data.reassign}/${ticket_id}/${username}`)
+    .then(function (response) {
+      // handle success
+      console.log(response);
+      if(response.data=="Assigned")
+      {
+        toast.success(response.data);
+      }
+      else
+      {
+        toast.error(response.data);
+      }
       
-    // })
-    // .catch(function (error) {
-    //   // handle error
-    //   console.log(error);
-    // })
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
   }
   form1.resetFields();
   
@@ -417,6 +415,7 @@ const CancelModal = () => {
   // console.log(appendData);  
   setModal(false);
   getTickets(sessionStorage.getItem('username'));
+  form1.resetFields();
     // setListData(null);
   };
 
